@@ -1,171 +1,67 @@
-# ![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png) Project 3: Web APIs & Classification
-
-### Description
-
-In week four we've learned about a few different classifiers. In week five we'll learn about webscraping, APIs, and Natural Language Processing (NLP). Now we're going to put those skills to the test.
+# Cameron Bronstein - Project 3
+# Web APIs and Classification Modeling
 
 For project 3, your goal is two-fold:
 1. Using Reddit's API, you'll collect posts from two subreddits of your choosing.
 2. You'll then use NLP to train a classifier on which subreddit a given post came from. This is a binary classification problem.
 
+## Executive Summary
 
-#### About the API
+### Subreddits of choice!
+[**Climate**](https://www.reddit.com/r/climate)
+[**ClimateSkeptics Subreddit**](https://www.reddit.com/r/climateskeptics)
 
-Reddit's API is fairly straightforward. For example, if I want the posts from [`/r/boardgames`](https://www.reddit.com/r/boardgames), all I have to do is add `.json` to the end of the url: https://www.reddit.com/r/boardgames.json
+### Problem Statement
+How do we classify speech or text when we do not know the source. This has importance today when much of the information we use to learn about and understand the world is flying through various platforms on the internet, quoted or paraphrased without sources.
 
-To help you get started, we have a primer video on how to use Reddit's API: https://www.youtube.com/watch?v=5Y3ZE26Ciuk
+In a highly politicized time, we can leverage machine learning to classify the source of text based information. In this specific context, how to we classify climate related speech into two competing categories - climate change acceptance and and climate change skeptics? Using natural language processing and machine learning models, we can do just that!
 
----
+### Data Summary
 
-### Requirements
+|Feature|Type|Description|
+|---|---|---|
+|domain| object | The source of the post content |
+|comments| integer | Number of comments on the post |
+|title| object | The title content of the post (to be used for NLP) |
+|score| integer | Up vote - Down votes |
+|subreddit| integer | Climate (0) and Climate Skeptics (1) |
+|url| object | url of the post content |
+|lemmatized| object | Post title with lemmatized version of original words |
+|stemmed| object | Post title with stemmed version of origial words |
+|avg_word_len| float| Average length of the words used in each post |
+|title_length| integer | Length of the post title |
+| positive_sentiment | float | Positivity of post content |
+|negative_sentiment| float | Negativity of post content |
+|neutral_sentiment| float | Neutrality of post content |
+|compound_sentiment| float | Overall sentiment of post content |
 
-- Gather and prepare your data using the `requests` library.
-- **Create and compare two models**. One of these must be a random forest, however the other can be a classifier of your choosing: logistic regression, KNN, SVM, etc.
-- A Jupyter Notebook with your analysis for a peer audience of data scientists.
-- An executive summary of the results you found.
-- A short presentation outlining your process and findings for a semi-technical audience.
+### Notebook Contents
 
-**Pro Tip 1:** You can find a good example executive summary [here](https://www.proposify.biz/blog/executive-summary).
+- Imports
+- API/ Data Collection
+- Converting to pandas
+- Text Preprocessing
+  - Tokenizing
+  - Lemmatizing
+  - Stemming
+  - Sentiment Analysis
+  - Feature engineering
+- Exploratory Data Analysis
+- Initial Modeling
+  - Text Vectorization
+    - Count Vectorizer
+    - Term Frequency - Inverse Document Frequency
+  - Model Comparison
+  - Text Comparison
+- Final Model Selection
+- Model Evaluation
 
-**Pro Tip 2:** Reddit will give you 25 posts **per request**. To get enough data, you'll need to hit Reddit's API **repeatedly** (most likely in a `for` loop). _Be sure to use the `time.sleep()` function at the end of your loop to allow for a break in between requests. **THIS IS CRUCIAL**_
+### Presentation
+[View it here](https://docs.google.com/presentation/d/1QGFuyKEImY6HTIwW1F5f3bF038ehyuIkR6byuQaJ5do/edit?usp=sharing)
 
-**Pro tip 3:** The API will cap you at 1,000 posts for each subreddit (assuming the subreddit has that many posts).
+### Conclusions
+Model Ensembles were the most effective modeling techniques. I used a Bagging Classifier Decision Tree with bootstrapped data but inclusive features. The model performed with an average accuracy of 0.82 (standard deviation 0.0067) after 20 runs.
 
-**Pro tip 4:** At the end of each loop, be sure to save the results from your scrape as a `csv`: JSON from Reddit > Pandas DataFrame > CSV. That way, if something goes wrong in your loop, you won't lose all your data.
+The model classified the two subreddits with similar accuracies (climate 0.85, climate skeptics 0.81). By looking at the misclassified posts, they are pretty quickly categorizable by interpreting their context or looking at the source of the linked media. Incorporating the source of the post content into the model could greatly improve its accuracy. Also, using broader n-gram ranges ((1,2), (1,3)) could add some 'context' to the features of our model.
 
----
-
-### Necessary Deliverables / Submission
-
-- Code and executive summary must be in a clearly commented Jupyter Notebook.
-- You must submit your slide deck.
-- Materials must be submitted by **10:00 AM on Friday, December 21st**.
-
----
-
-## Rubric
-Your local instructor will evaluate your project (for the most part) using the following criteria.  You should make sure that you consider and/or follow most if not all of the considerations/recommendations outlined below **while** working through your project.
-
-For Project 3 the evaluation categories are as follows:<br>
-**The Data Science Process**
-- Problem Statement
-- Data Collection
-- Data Cleaning & EDA
-- Preprocessing & Modeling
-- Evaluation and Conceptual Understanding
-- Conclusion and Recommendations
-
-**Organization and Professionalism**
-- Organization
-- Visualizations
-- Python Syntax and Control Flow
-- Presentation
-
-**Scores will be out of 30 points based on the 10 categories in the rubric.** <br>
-*3 points per section*<br>
-
-| Score | Interpretation |
-| --- | --- |
-| **0** | *Project fails to meet the outlined expectations; many major issues exist.* |
-| **1** | *Project close to meeting expectations; many minor issues or a few major issues.* |
-| **2** | *Project meets expectations; few (and relatively minor) mistakes.* |
-| **3** | *Project demonstrates a thorough understanding of all of the considerations outlined.* |
-
-
-### The Data Science Process
-
-**Problem Statement** 
-- Is it clear what the goal of the project is?
-- What type of model will be developed?
-- How will success be evaluated?
-- Is the scope of the project appropriate?
-- Is it clear who cares about this or why this is important to investigate?
-- Does the student consider the audience and the primary and secondary stakeholders?
-
-**Data Collection** 
-- Was enough data gathered to generate a significant result?
-- Was data collected that was useful and relevant to the project?
-- Was data collection and storage optimized through custom functions, pipelines, and/or automation?
-- Was thought given to the server receiving the requests such as considering number of requests per second?
-
-**Data Cleaning and EDA** 
-- Are missing values imputed/handled appropriately?
-- Are distributions examined and described?
-- Are outliers identified and addressed?
-- Are appropriate summary statistics provided?
-- Are steps taken during data cleaning and EDA framed appropriately?
-- Does the student address whether or not they are likely to be able to answer their problem statement with the provided data given what they've discovered during EDA?
-
-**Preprocessing and Modeling** 
-- Is text data successfully converted to a matrix representation?
-- Are methods such as stop words, stemming, and lemmatization explored?
-- Does the student properly split and/or sample the data for validation/training purposes?
-- Does the student test and evaluate a variety of models to identify a production algorithm (**AT MINIMUM:** RandomForest and one other model)?
-- Does the student defend their choice of production model relevant to the data at hand and the problem?
-- Does the student explain how the model works and evaluate its performance successes/downfalls?
-
-**Evaluation and Conceptual Understanding** 
-- Does the student accurately identify and explain the baseline score?
-- Does the student select and use metrics relevant to the problem objective?
-- Does the student interpret the results of their model for purposes of inference?
-- Is domain knowledge demonstrated when interpreting results?
-- Does the student provide appropriate interpretation with regards to descriptive and inferential statistics?
-
-**Conclusion and Recommendations** 
-- Does the student provide appropriate context to connect individual steps back to the overall project?
-- Is it clear how the final recommendations were reached?
-- Are the conclusions/recommendations clearly stated?
-- Does the conclusion answer the original problem statement?
-- Does the student address how findings of this research can be applied for the benefit of stakeholders?
-- Are future steps to move the project forward identified?
-
-
-### Organization and Professionalism
-
-**Project Organization**
-- Are modules imported correctly (using appropriate aliases)?
-- Are data imported/saved using relative paths?
-- Does the README provide a good executive summary of the project?
-- Is markdown formatting used appropriately to structure notebooks?
-- Are there an appropriate amount of comments to support the code?
-- Are files & directories organized correctly?
-- Are there unnecessary files included?
-- Do files and directories have well-structured, appropriate, consistent names?
-
-**Visualizations**
-- Are sufficient visualizations provided?
-- Do plots accurately demonstrate valid relationships?
-- Are plots labeled properly?
-- Are plots interpreted appropriately?
-- Are plots formatted and scaled appropriately for inclusion in a notebook-based technical report?
-
-**Python Syntax and Control Flow**
-- Is care taken to write human readable code?
-- Is the code syntactically correct (no runtime errors)?
-- Does the code generate desired results (logically correct)?
-- Does the code follows general best practices and style guidelines?
-- Are Pandas functions used appropriately?
-- Are `sklearn` and `NLTK` methods used appropriately?
-
-**Presentation**
-- Is the problem statement clearly presented?
-- Does a strong narrative run through the presentation building toward a final conclusion?
-- Are the conclusions/recommendations clearly stated?
-- Is the level of technicality appropriate for the intended audience?
-- Is the student substantially over or under time?
-- Does the student appropriately pace their presentation?
-- Does the student deliver their message with clarity and volume?
-- Are appropriate visualizations generated for the intended audience?
-- Are visualizations necessary and useful for supporting conclusions/explaining findings?
-
-
----
-
-### Why we choose this project for you?
-This project covers three of the biggest concepts we cover in the class: Classification Modeling, Natural Language Processing and Data Wrangling/Acquisition.
-
-Part 1 of the project focuses on **Data wrangling/gathering/acquisition**. This is a very important skill as not all the data you will need will be in clean CSVs or a single table in SQL.  There is a good chance that wherever you land you will have to gather some data from some unstructured/semi-structured sources; when possible, requesting information from an API, but often scraping it because they don't have an API (or it's terribly documented).
-
-Part 2 of the project focuses on **Natural Language Processing** and converting standard text data (like Titles and Comments) into a format that allows us to analyze it and use it in modeling.
-
-Part 3 of the project focuses on **Classification Modeling**.  Given that project 2 was a regression focused problem, we needed to give you a classification focused problem to practice the various models, means of assessment and preprocessing associated with classification.   
+Considering a model like Logistic Regression to bolster our interpretation of the modeling would be beneficial (the Bagging Classifier does not allow for interpretability despite it's increased performance).
