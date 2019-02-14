@@ -8,8 +8,7 @@ For project 3, your goal is two-fold:
 ## Executive Summary
 
 ### Subreddits of choice!
-[**Climate**](https://www.reddit.com/r/climate)
-[**ClimateSkeptics Subreddit**](https://www.reddit.com/r/climateskeptics)
+[**Climate**](https://www.reddit.com/r/climate) | [**ClimateSkeptics Subreddit**](https://www.reddit.com/r/climateskeptics)
 
 ### Problem Statement
 How do we classify speech or text when we do not know the source. This has importance today when much of the information we use to learn about and understand the world is flying through various platforms on the internet, quoted or paraphrased without sources.
